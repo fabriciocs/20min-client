@@ -1,0 +1,5 @@
+.ng-table tr {
+    cursor: pointer;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

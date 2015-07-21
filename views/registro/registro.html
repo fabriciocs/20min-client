@@ -1,0 +1,99 @@
+<div class="container-fluid">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="form-group">
+					<label>Usuario:</label>
+					<select ng-model="usuario" class="selectpicker"
+						ng-options="usr.nome for usr in usuarios">
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<fieldset class="col-md-12" ng-disabled="!showForm">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Registro de Ponto</h3>
+			</div>
+			<div class="panel-body">
+				<table ng-table="table" class="table table-hover table-striped">
+					<thead>
+						<tr>
+							<th colspan="4">
+								<div class="col-md-12">
+									<div class="input-group">
+										<input type="text" class="form-control" ng-model="filter.name">
+										<span class="input-group-btn">
+											<button class="btn btn-default" type="button"
+												ng-click="table.reload()">Buscar</button>
+										</span>
+									</div>
+								</div>
+							</th>
+						</tr>
+						<tr>
+							<th>Data e Hora</th>
+							<th>Usuario</th>
+							<th>Tipo</th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="group in $groups" ng-init='group.$hideRows=false'>
+						<tr class="ng-table-group">
+							<td colspan="3">
+								<a href="" ng-click="group.$hideRows = !group.$hideRows">
+									<span class="glyphicon"
+										ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+									<strong>{{ group.value | date : 'dd/MM/yyyy' }}</strong>
+								</a>
+							</td>
+						</tr>
+						<tr ng-hide="group.$hideRows" ng-repeat="reg in group.data"
+							ng-click="setRegistro(reg)"
+							ng-class="{'success':checkRegistro(reg)}">
+							<td data-title="'Data e Hora'">{{reg.dataEHora | date :
+								'dd/MM/yyyy HH:mm:ss'}}</td>
+							<td data-title="'usuario'">{{usuario.nome}}</td>
+							<td data-title="'tipo'">{{reg.tipo}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<button type="submit" class="btn btn-success" ng-click="registrar()">Registrar</button>
+			</div>
+			<div class="panel-body">
+				<fieldset ng-disabled='false'>
+					<form class="form" novalidate>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Data e Hora:</label>
+								<input class="form-control" ng-model="registro.dataEHora"
+									placeholder="yyyy-MM-ddTHH:mm:ss" type="datetime-local">
+							</div>
+							<div class="form-group">
+								<label>Tipo:</label>
+								<select ng-model="registro.tipo" class="selectpicker">
+									<option value='Entrada'>Entrada</option>
+									<option value='Saida'>Saida</option>
+								</select>
+							</div>
+							<button type="submit" class="btn btn-default"
+								ng-click="setRegistro({})">Novo</button>
+							<button type="submit" class="btn btn-success"
+								ng-click="registro.save(usuario)">Salvar</button>
+							<button type="submit" class="btn btn-danger"
+								ng-click="remover()">Excluir</button>
+							<alert ng-repeat="alert in alerts" class="col-md-12"
+								type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+						</div>
+					</form>
+				</fieldset>
+			</div>
+		</div>
+	</fieldset>
+</div>
