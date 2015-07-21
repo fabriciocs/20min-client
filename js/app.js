@@ -21,7 +21,7 @@ config(['$stateProvider', '$urlRouterProvider', 'RestangularProvider',function($
 	RestangularProvider.setRestangularFields({
 		id: "_id"
 	});
-	RestangularProvider.setBaseUrl('http://localhost:3001');
+	RestangularProvider.setBaseUrl('http://presentationnode-bestsmart.rhcloud.com');
 }])
 .run(['$rootScope','$timeout', function($rootScope,$timeout ){
 	$rootScope.alerts = [];
