@@ -4,12 +4,15 @@ service('UsuarioService', ['Restangular','$q','$timeout','$rootScope',function (
 	function UsuarioService(obj){
 		if(obj){
 			angular.extend(this, obj);
-			this.dataNascimento = new Date(obj.dataNascimento);
 		}
+		this.id = this.usrNome + " - " + this.usrLogin;
 	}
 
 	UsuarioService.load = function(first_argument) {
 		return Server.getList().then(function(data){
+			data.forEach(function(dt, index){
+				data[index] = new UsuarioService(dt);
+			});
 			$rootScope.$broadcast("UsuarioService:load",{});
 			return data;
 		});

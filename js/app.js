@@ -3,7 +3,7 @@
  *
  * Description
  */
-angular.module('vinteMinutos', ['ui.router', 'restangular','ngTable','ui.bootstrap', 'vinteMinutos.usuario', 'vinteMinutos.registro']).
+angular.module('vinteMinutos', ['ui.router', 'restangular','ngTable','ui.bootstrap','ngAnimate', 'vinteMinutos.usuario', 'vinteMinutos.registro']).
 config(['$stateProvider', '$urlRouterProvider', 'RestangularProvider',function($stateProvider, $urlRouterProvider, RestangularProvider){
 	$urlRouterProvider.otherwise("/usuario");
 
@@ -21,7 +21,7 @@ config(['$stateProvider', '$urlRouterProvider', 'RestangularProvider',function($
 	RestangularProvider.setRestangularFields({
 		id: "_id"
 	});
-	RestangularProvider.setBaseUrl('http://presentationnode-bestsmart.rhcloud.com');
+	RestangularProvider.setBaseUrl('http://192.7.1.106:8089');
 }])
 .run(['$rootScope','$timeout', function($rootScope,$timeout ){
 	$rootScope.alerts = [];

@@ -21,6 +21,16 @@ controller('UsuarioCtrl', ['$scope','UsuarioService','ngTableParams','$filter','
 		});
 		$scope.table.reload();
 	});
+	$scope.setGroup = function(group){
+		if($scope.isShow(group)){
+			$scope.group={};
+		}else{			
+			$scope.group = group;
+		}
+	}
+	$scope.isShow = function(group){
+		return angular.equals(group, $scope.group);
+	}
 	$scope.$on('UsuarioService:remove',function(data){
 		$scope.$root.addAlert({
 			msg : 'Usuário removido com sucesso',
@@ -33,6 +43,7 @@ controller('UsuarioCtrl', ['$scope','UsuarioService','ngTableParams','$filter','
 		count: 10
 	}, {
 		total: 0,
+		groupBy: 'id',
 		getData: function($defer, params) {
 			UsuarioService.load().then(function(data){
 				var  filtered = params.filter ?

@@ -7,7 +7,7 @@
 			<table ng-table="table" class="table table-hover table-striped">
 				<thead>
 					<tr>
-						<th colspan="4">
+						<th colspan="7">
 							<div class="col-md-12">
 								<div class="input-group">
 									<input type="text" class="form-control" ng-model="filter.name">
@@ -20,63 +20,132 @@
 						</th>
 					</tr>
 					<tr>
-						<th>Nome</th>
-						<th>CPF</th>
-						<th>Login</th>
-						<th>Data Nasc.</th>
+						<th>Usuários</th>
+						<!-- <th>Login</th>
+						<th>Email</th>
+						<th>Status</th>
+						<th>Setor</th>
+						<th>R.R. Proprio</th> -->
 					</tr>
 				</thead>
-				<tbody>
-					<tr ng-repeat="usr in $data" ng-click="setUsuario(usr)"
-						ng-class="{'success':usuario._id===usr._id}">
-						<td data-title="'Nome'">{{usr.nome}}</td>
-						<td data-title="'CPF'">{{usr.cpf}}</td>
-						<td data-title="'Login'">{{usr.login}}</td>
-						<td data-title="'Data Nasc.'">{{usr.dataNascimento | date :
-							'dd/MM/yyyy'}}</td>
+				<tbody ng-repeat="group in $groups">
+					<tr class="ng-table-group" ng-click="setGroup(group)" ng-class="{'danger':isShow(group)}">
+						<td colspan="1"><a href=""> <span class="glyphicon"
+								ng-class="{ 'glyphicon-chevron-right': !isShow(group), 'glyphicon-chevron-down': isShow(group) }"></span>
+								<strong>{{ group.value}}</strong>
+						</a></td>
+					</tr>
+					<tr ng-show="isShow(group)" ng-repeat="usuario in group.data"
+						class="cssSlideUp">
+						<td data-title="''">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">{{usuario.usrNome}}</h3>
+								</div>
+								<div class="panel-body">
+									<form class="form">
+
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Código:</label> <input class="form-control"
+													ng-model="usuario.usrCodigo" ng-disabeld="true">
+											</div>
+											<div class="form-group">
+												<label>Nome:</label> <input class="form-control"
+													ng-model="usuario.usrNome" ng-disabeld="true">
+											</div>
+											<div class="form-group">
+												<label>Login:</label> <input class="form-control"
+													ng-model="usuario.usrLogin" ng-disabeld="true">
+											</div>
+											<div class="form-group">
+												<label>Email:</label> <input class="form-control"
+													ng-model="usuario.usrEmail" ng-disabeld="true">
+											</div>
+											<div class="form-group">
+												<label>Status:</label> <input class="form-control"
+													ng-model="usuario.usrStatus" ng-disabeld="true">
+											</div>
+											<div class="form-group">
+												<label>Setor:</label> <input class="form-control"
+													ng-model="usuario.usrSetor" ng-disabeld="true">
+											</div>
+											<div class="form-group">
+												<label>Restringir Registro Próprio:</label> <input
+													class="form-control"
+													ng-model="usuario.usrRestringirRegistroProprio"
+													ng-disabeld="true">
+											</div>
+											<div class="hidden">
+												<button type="submit" class="btn btn-default"
+													ng-click="setUsuario({})">Novo</button>
+												<button type="submit" class="btn btn-success"
+													ng-click="usuario.save()">Salvar</button>
+												<button type="submit" class="btn btn-danger"
+													ng-click="usuario.remove()">Excluir</button>
+											</div>
+											<alert ng-repeat="alert in $root.alerts" class="col-md-12"
+												type="{{alert.type}}" close="$root.closeAlert($index)">{{alert.msg}}</alert>
+										</div>
+									</form>
+								</div>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<div class="panel panel-default">
+	<!-- <div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{usuario.nome}}</h3>
+			<h3 class="panel-title">{{usuario.usrNome}}</h3>
 		</div>
 		<div class="panel-body">
 			<form class="form">
 
 				<div class="col-md-12">
 					<div class="form-group">
-						<label>Nome:</label> <input class="form-control"
-							ng-model="usuario.nome">
+						<label>Código:</label> <input class="form-control"
+							ng-model="usuario.usrCodigo" ng-disabeld="true">
 					</div>
 					<div class="form-group">
-						<label>CPF:</label> <input class="form-control"
-							ng-model="usuario.cpf">
+						<label>Nome:</label> <input class="form-control"
+							ng-model="usuario.usrNome" ng-disabeld="true">
 					</div>
 					<div class="form-group">
 						<label>Login:</label> <input class="form-control"
-							ng-model="usuario.login">
+							ng-model="usuario.usrLogin" ng-disabeld="true">
 					</div>
 					<div class="form-group">
-						<label>Senha:</label> <input class="form-control"
-							ng-model="usuario.senha" type="password">
+						<label>Email:</label> <input class="form-control"
+							ng-model="usuario.usrEmail" ng-disabeld="true">
 					</div>
 					<div class="form-group">
-						<label>Data Nascimento:</label> <input class="form-control"
-							ng-model="usuario.dataNascimento" type="date">
+						<label>Status:</label> <input class="form-control"
+							ng-model="usuario.usrStatus" ng-disabeld="true">
 					</div>
-					<button type="submit" class="btn btn-default"
-						ng-click="setUsuario({})">Novo</button>
-					<button type="submit" class="btn btn-success"
-						ng-click="usuario.save()">Salvar</button>
-					<button type="submit" class="btn btn-danger"
-						ng-click="usuario.remove()">Excluir</button>
+					<div class="form-group">
+						<label>Setor:</label> <input class="form-control"
+							ng-model="usuario.usrSetor" ng-disabeld="true">
+					</div>
+					<div class="form-group">
+						<label>Restringir Registro Próprio:</label> <input
+							class="form-control"
+							ng-model="usuario.usrRestringirRegistroProprio"
+							ng-disabeld="true">
+					</div>
+					<div class="hidden">
+						<button type="submit" class="btn btn-default"
+							ng-click="setUsuario({})">Novo</button>
+						<button type="submit" class="btn btn-success"
+							ng-click="usuario.save()">Salvar</button>
+						<button type="submit" class="btn btn-danger"
+							ng-click="usuario.remove()">Excluir</button>
+					</div>
 					<alert ng-repeat="alert in $root.alerts" class="col-md-12"
 						type="{{alert.type}}" close="$root.closeAlert($index)">{{alert.msg}}</alert>
 				</div>
 			</form>
 		</div>
-	</div>
+	</div>-->
 </div>
